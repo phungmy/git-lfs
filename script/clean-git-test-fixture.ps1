@@ -4,16 +4,16 @@ param ($cleanPath)
 $ErrorActionPreference="Stop"
 
 # bail out if path not specified
-if (!$cleanPath)
+If (!$cleanPath)
 {
-    write-host "path not specified"
+    Write-Host "path not specified"
     exit 1
 }
 
 # make sure the repo we're cleaning already exists.
-if (!(test-path $cleanPath))
+If (!(Test-Path $cleanPath))
 {
-    write-host "$path does not exist"
+    Write-Host "$path does not exist"
     exit 1
 }
 
@@ -33,23 +33,22 @@ $superfluous_git_files=@("COMMIT_EDITMSG",
     "index",
     "info\exclude")
 
-foreach ($filename in $superfluous_git_files)
+ForEach ($filename in $superfluous_git_files)
 {
     $filepath="$cleanPath\$filename"
-
-    if (test-path $filepath)
+    If (Test-Path $filepath)
     {
-        if (test-path $filepath -pathtype container)
+        If (Test-Path $filepath -pathtype container)
         {
             # If the thing at $filepath is a directory, delete it recursively.
-            remove-item -recurse $filepath
-            write-host "Deleted dir at $filepath"
+            Remove-Item -recurse $filepath
+            Write-Host "Deleted dir at $filepath"
         }
-        else
+        Else
         {
             # If the thing at $filepath is a file, delete it the normal way.
-            remove-item $filepath
-            write-host "Deleted file at $filepath"
+            Remove-Item $filepath
+            Write-Host "Deleted file at $filepath"
         }
     }
 }

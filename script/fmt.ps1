@@ -1,14 +1,3 @@
-param ($goFmtArgs)
-
-# don't run gofmt in these directories
-$ignored = @("bin", "docs", "log", "man", "tmp", ".vendor")
-
-foreach ($dir in (get-childitem -directory))
-{
-    if ($ignored -notcontains $dir)
-    {
-        gofmt -w -l $goFmtArgs $dir
-    }
-}
+Get-ChildItem -Directory -Exclude bin, docs, log, man, tmp, .vendor | %{ gofmt -w -l "$_" }
 
 script\clean-git-test-fixtures.ps1 > $null
